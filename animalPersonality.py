@@ -1,4 +1,4 @@
-print(List of Animals: Dog, Cat, Lion, Tiger, Rabbit, Bird, Dolphin, Elephant, Sloth, Turtle)
+print("List of Animals: Dog, Cat, Lion, Tiger, Rabbit, Bird, Dolphin, Elephant, Sloth, Turtle")
 fav_animal = input("Pick which animal is your favorite: ").lower.str
 
 if fav_animal == "dog" or "cat":
