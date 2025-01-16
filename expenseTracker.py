@@ -26,31 +26,91 @@ Data Structure:
 
 # Define the functions for our application
 
-def add_expenses():
-    add = 1 + 1 # Remove this later
+def add_expenses(expenses, category, amount):
+    """
+    Add an expense to the tracker.
 
-def get_total_expenses():
-    add = 1 + 1 # Remove this later
+    Args:
+        expenses (dict): A dictionary where keys are categories and values are lists of expense amounts
+        category (str): The category of the expense
+        amount: (float): The amount of the expense.
 
-def get_category_summary():
-    add = 1 + 1 # Remove this later
+        Returns:
+            dict: The update dictionary of expenses
+    """
 
-def display_expense_report():
-    add = 1 + 1 # Remove this later
+    if category not in expenses:
+        expenses[category] = []
+
+    expenses[category].append(amount)
+
+    return expenses
+
+def get_total_expenses(expenses):
+    """
+    Calculate the total expenses across all categories. 
+
+    Args:
+        expenses (dict): A dictionary where keys are categories and values are lists of expense amounts
+
+    Returns:
+        float: The total amount of expenses
+    """
+
+    return sum(sum(amounts) for amounts in expenses.values())
 
 
-while True:
-    print("\n\n")
-    print("########################################")
-    print("###                                  ###")
-    print("###        MY EXPENSE TRACKER        ###")
-    print("###                                  ###")
-    print("########################################")
-    print("\n\n")
+def get_category_summary(expenses):
+    """
+    Provide a summary of expenses by category.
+
+    Args:
+        expenses (dict): A dictionary where keys are categories and values are lists of expense amounts
+
+    Returns:
+        dict: Our ever expanding dictionary
+    """
+
+    return {category: sum(amounts) for category, amounts in expenses.items()}
+
+def display_expense_report(expenses):
+    """
+    Display a detailed expense report
+
+    Args:
+        expenses (dict): A dictionary where keys are categories and values are lists of expense amounts
+
+    Returns:
+        NONE
+    """
+
+    print("\n--- Expense Report ---")
+    category_summary = get_category_summary(expenses)
+    total_expenses = get_total_expenses(expenses)
+
+    for category, total in category_summary.items():
+        print(f"{category}: ${total:.2f}")
+
+        print(f"Total Expenses: ${total_expenses:.2f}")
+        print("------------------------------------\n")
+
+
+
+# Create and empty dictionary to hold all of our data
+expenses = {}
+
+print("\n\n")
+print("########################################")
+print("###                                  ###")
+print("###        MY EXPENSE TRACKER        ###")
+print("###                                  ###")
+print("########################################")
+print("\n\n")
     
+while True:
 
     # Create the application menu
-    print("\n########### MENU ###########")
+    print("\n########### MENU ###########\n")
     print("1. Add Expense")
     print("2. View Total Expenses")
     print("3. View Expense Report")
@@ -59,6 +119,24 @@ while True:
     # Ask the user what they want to do
     choice = input("Enter your choice: ")
 
+    # User has 4 options, this section will control what happens with each option selected
+    if choice == "1":
+        category = input("Enter the expense category (e.g. Food, Transportation, Utilities, etc.)")
+        amount = float(input("Enter the expense amount: "))
+        expenses = add_expenses(expenses, category, amount)
+        # expenses gets returned from the function, and assigned to an expenses variable
+        # the variable expenses does not get used yet
+
+        print("Expense added successfully!")
+
+    elif choice == "2":
+        total = get_total_expenses(expenses)
+        print(f"Total Expenses so far: ${total:.2f}")
+    
+    elif choice == "3": 
+        display_expense_report(expenses)
     # End the application and avoid an Infinite Loop
-    if choice == "4":
+    elif choice == "4":
         break
+    else:
+        print("Invalid choice. Please choose again: ")
